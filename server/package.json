@@ -1,0 +1,24 @@
+{
+  "name": "@tesla-mediator/server",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "./dist/index.js",
+  "scripts": {
+    "build": "tsc -b",
+    "start": "node dist/index.js",
+    "dev": "tsc -b && MEDIATOR_SOURCE=mock node dist/index.js",
+    "sample": "sh scripts/make-sample.sh"
+  },
+  "dependencies": {
+    "@tesla-mediator/shared": "0.1.0",
+    "ws": "^8.18.0"
+  },
+  "optionalDependencies": {
+    "node-carplay": "4.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.9.0",
+    "@types/ws": "^8.5.13"
+  }
+}

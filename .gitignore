@@ -1,0 +1,6 @@
+node_modules/
+dist/
+*.tsbuildinfo
+certs/
+server/samples/*.h264
+.DS_Store

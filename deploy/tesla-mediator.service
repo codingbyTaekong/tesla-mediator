@@ -1,0 +1,20 @@
+[Unit]
+Description=Tesla Mediator (CarPlay -> Tesla browser bridge)
+After=network-online.target hostapd.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=mediator
+WorkingDirectory=/opt/tesla-mediator
+Environment=NODE_ENV=production
+Environment=MEDIATOR_SOURCE=carlinkit
+Environment=MEDIATOR_PORT=443
+# 443 포트 바인딩 허용
+AmbientCapabilities=CAP_NET_BIND_SERVICE
+ExecStart=/usr/bin/node server/dist/index.js
+Restart=always
+RestartSec=2
+
+[Install]
+WantedBy=multi-user.target

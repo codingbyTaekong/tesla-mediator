@@ -1,0 +1,30 @@
+{
+  "name": "tesla-mediator",
+  "version": "0.1.0",
+  "private": true,
+  "description": "아이폰 CarPlay 화면을 테슬라 브라우저로 중계하는 라즈베리파이 브리지",
+  "type": "module",
+  "workspaces": [
+    "shared",
+    "server",
+    "web"
+  ],
+  "scripts": {
+    "build": "npm run build -w shared && npm run build -w web && npm run build -w server",
+    "dev": "npm run build -w shared && npm run build -w web && npm run dev -w server",
+    "test": "npm test -w shared",
+    "typecheck": "tsc -b shared server && tsc -p web --noEmit",
+    "lint": "eslint .",
+    "format": "prettier --write ."
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.14.0",
+    "eslint": "^9.14.0",
+    "prettier": "^3.3.3",
+    "typescript": "^5.6.3",
+    "typescript-eslint": "^8.13.0"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

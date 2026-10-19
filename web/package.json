@@ -1,0 +1,16 @@
+{
+  "name": "@tesla-mediator/web",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc --noEmit && vite build",
+    "dev": "vite"
+  },
+  "dependencies": {
+    "@tesla-mediator/shared": "0.1.0"
+  },
+  "devDependencies": {
+    "vite": "7.3.6"
+  }
+}

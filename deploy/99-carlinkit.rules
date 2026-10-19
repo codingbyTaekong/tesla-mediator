@@ -1,0 +1,2 @@
+# Carlinkit 동글을 root 없이 열 수 있게 한다. /etc/udev/rules.d/ 로 복사.
+SUBSYSTEM=="usb", ATTR{idVendor}=="1314", ATTR{idProduct}=="152[01]", MODE="0660", GROUP="plugdev"

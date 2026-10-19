@@ -1,0 +1,58 @@
+:root {
+  color-scheme: dark;
+  --bg: #000;
+  --fg: #e8e8e8;
+  --muted: #8a8a8a;
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: system-ui, sans-serif;
+  overflow: hidden;
+  /* 브라우저 기본 스크롤/줌/선택이 터치 전달을 방해하지 않게 */
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+#screen {
+  display: block;
+  width: 100vw;
+  height: 100vh;
+  object-fit: contain;
+}
+
+#overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: var(--bg);
+  pointer-events: none;
+}
+
+#overlay[hidden] {
+  display: none;
+}
+
+#overlay h1 {
+  margin: 0;
+  font-size: 2rem;
+}
+
+#overlay p {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+#overlay .hint {
+  color: var(--muted);
+  font-size: 1rem;
+}

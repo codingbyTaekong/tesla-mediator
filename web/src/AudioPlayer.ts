@@ -16,6 +16,11 @@ export class AudioPlayer {
   private ctx: AudioContext | null = null
   private playhead = 0
 
+  /** 아직 unlock()하지 않았으면 null */
+  get context(): AudioContext | null {
+    return this.ctx
+  }
+
   unlock(): void {
     this.ctx ??= new AudioContext({ latencyHint: 'interactive' })
     void this.ctx.resume()

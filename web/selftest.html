@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <title>Tesla 브라우저 테스트</title>
+    <link rel="stylesheet" href="./src/selftest/selftest.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Tesla 브라우저 테스트</h1>
+      <p class="sub">
+        정차 중에 <b>테스트 시작</b>을 누른 뒤 그대로 주행해 보세요. 기록은 이 브라우저에 저장되어
+        다음에 열어도 보입니다.
+      </p>
+      <div class="actions">
+        <button id="start" class="primary">테스트 시작</button>
+        <button id="stop" hidden>테스트 종료</button>
+        <button id="clear" class="ghost">기록 지우기</button>
+      </div>
+    </header>
+
+    <section class="card">
+      <h2>브라우저 기능</h2>
+      <ul id="caps" class="caps"></ul>
+    </section>
+
+    <section class="grid">
+      <div class="card">
+        <h2>① canvas 영상 <span class="tag">실제 앱 방식</span></h2>
+        <div class="media"><canvas id="canvas"></canvas></div>
+        <dl class="stats">
+          <dt>FPS</dt>
+          <dd id="canvas-fps">–</dd>
+          <dt>마지막 프레임</dt>
+          <dd id="canvas-age">–</dd>
+          <dt>그린 프레임</dt>
+          <dd id="canvas-count">0</dd>
+        </dl>
+      </div>
+
+      <div class="card">
+        <h2>② &lt;video&gt; 영상 <span class="tag muted">비교용</span></h2>
+        <div class="media">
+          <video id="video" src="./selftest/sample.mp4" loop muted playsinline></video>
+        </div>
+        <dl class="stats">
+          <dt>상태</dt>
+          <dd id="video-state">–</dd>
+          <dt>재생 위치</dt>
+          <dd id="video-time">–</dd>
+        </dl>
+      </div>
+
+      <div class="card">
+        <h2>③ 소리 (WebAudio)</h2>
+        <p class="hint">
+          테스트 시작 시 낮은 삐 소리가 계속 납니다. 소리가 끊기는 순간을 기억해 두세요.
+        </p>
+        <dl class="stats">
+          <dt>AudioContext</dt>
+          <dd id="audio-state">–</dd>
+          <dt>재생 시간</dt>
+          <dd id="audio-time">–</dd>
+        </dl>
+      </div>
+
+      <div class="card">
+        <h2>④ 터치</h2>
+        <div id="pad" class="pad"><span>여기를 터치·드래그</span></div>
+        <dl class="stats">
+          <dt>좌표</dt>
+          <dd id="touch-pos">–</dd>
+          <dt>동시 터치</dt>
+          <dd id="touch-count">–</dd>
+        </dl>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>타임라인 <span class="tag muted">1칸 = 1초, 최근 10분</span></h2>
+      <div class="legend">
+        <span><i class="ok"></i>정상</span><span><i class="bad"></i>멈춤</span
+        ><span><i class="off"></i>측정 안 함</span>
+      </div>
+      <canvas id="timeline" class="timeline"></canvas>
+      <p class="hint" id="timeline-note"></p>
+    </section>
+
+    <section class="card">
+      <h2>이벤트 기록</h2>
+      <ol id="log" class="log"></ol>
+    </section>
+
+    <script type="module" src="./src/selftest/main.ts"></script>
+  </body>
+</html>

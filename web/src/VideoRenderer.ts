@@ -7,6 +7,8 @@ export interface VideoRendererEvents {
   onFirstFrame: () => void
   /** 브라우저가 이 H.264 프로파일을 디코딩하지 못할 때 */
   onUnsupported: (codec: string) => void
+  /** 프레임이 그려질 때마다 (자체 테스트 페이지의 통계용) */
+  onFrame?: () => void
 }
 
 /**
@@ -98,6 +100,7 @@ export class VideoRenderer {
       output: (frame) => {
         this.ctx.drawImage(frame, 0, 0, this.canvas.width, this.canvas.height)
         frame.close()
+        this.events.onFrame?.()
         if (!this.drewFrame) {
           this.drewFrame = true
           this.events.onFirstFrame()

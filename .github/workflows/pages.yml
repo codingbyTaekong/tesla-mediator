@@ -2,10 +2,8 @@
 # Pi 없이 HTTPS로 열기 위한 용도. 저장소 Settings › Pages › Source를 "GitHub Actions"로 한 번 설정해야 한다.
 name: Deploy web to GitHub Pages
 
+# Pages를 켜기 전에는 실패하므로 수동 실행만 한다. 직접 호스팅한다면 쓰지 않아도 된다.
 on:
-  push:
-    branches: [main, claude/relaxed-mccarthy-o1t1mk]
-    paths: [web/**, shared/**, package-lock.json, .github/workflows/pages.yml]
   workflow_dispatch:
 
 permissions:

@@ -57,9 +57,18 @@ npm run typecheck
 Pi와 동글을 사기 전에, 이 방식이 테슬라 브라우저에서 — 특히 **주행 중에** — 동작하는지 먼저 확인하는 페이지입니다.
 실제 뷰어와 같은 코드(WebCodecs → canvas, WebAudio)로 샘플 영상과 테스트음을 재생하고, 1초마다 결과를 기록합니다.
 
-- 주소: **https://codingbytaekong.github.io/tesla-mediator/selftest.html**
-- 처음 한 번 저장소 **Settings › Pages › Build and deployment › Source**를 **GitHub Actions**로 바꾸고,
-  **Actions › Deploy web to GitHub Pages › Run workflow**를 실행해야 페이지가 열립니다.
+정적 파일이므로 HTTPS가 되는 아무 웹 서버에나 올리면 됩니다.
+
+```bash
+npm install
+npm run build -w shared && npm run build -w web
+# web/dist/ 안의 파일 전체를 서버에 업로드 → https://<도메인>/<경로>/selftest.html
+```
+
+- 상대 경로로 빌드되므로 도메인 루트가 아닌 하위 경로에 올려도 됩니다.
+- `selftest/sample.mp4`는 `video/mp4`로 제공되어야 합니다(nginx·Apache 기본 설정이면 문제없음).
+- GitHub Pages를 쓰려면 **Settings › Pages › Source**를 **GitHub Actions**로 바꾼 뒤
+  **Actions › Deploy web to GitHub Pages › Run workflow**를 실행합니다.
 
 테스트 방법:
 

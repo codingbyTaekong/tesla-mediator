@@ -11,6 +11,8 @@ const MIME: Record<string, string> = {
   '.svg': 'image/svg+xml',
   '.png': 'image/png',
   '.ico': 'image/x-icon',
+  '.mp4': 'video/mp4',
+  '.h264': 'video/h264',
 }
 
 /** web/dist를 서빙하는 최소 정적 파일 핸들러 */

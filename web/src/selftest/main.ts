@@ -297,15 +297,20 @@ function redraw() {
   $('timeline-note').textContent = summarize(store.samples, DRIVING_KMH)
 }
 
-async function start() {
+async function start(auto = false) {
   if (running) return
   running = true
   $('start').hidden = true
   $('stop').hidden = false
-  log('테스트 시작')
+  log(auto ? '테스트 자동 시작 (?auto=1)' : '테스트 시작')
 
-  // 브라우저 정책상 소리와 동영상 재생은 사용자 터치 직후에 시작해야 한다.
+  // 자동 시작이면 사용자 터치 없이 소리와 동영상이 시작되는지 확인한다.
   audio.unlock()
+  if (auto) {
+    window.setTimeout(() => {
+      log(audio.running ? '소리: 터치 없이 시작됨' : '소리: 막힘 — 화면을 터치하면 켜짐')
+    }, 1000)
+  }
   video.play().catch((err) => log(`video: 재생 실패 (${err.name})`))
 
   try {
@@ -340,7 +345,9 @@ function stop() {
   log('테스트 종료')
 }
 
-$('start').addEventListener('click', start)
+$('start').addEventListener('click', () => start())
+// 자동재생이 막혔을 때 아무 곳이나 터치하면 소리를 켠다.
+window.addEventListener('pointerdown', () => running && !audio.running && audio.unlock())
 $('stop').addEventListener('click', stop)
 $('clear').addEventListener('click', () => {
   store.samples = []
@@ -352,8 +359,21 @@ $('clear').addEventListener('click', () => {
 document.addEventListener('visibilitychange', () => {
   if (running) log(document.hidden ? '페이지가 숨겨짐' : '페이지가 다시 보임')
 })
+window.addEventListener('pagehide', (e) => log(`pagehide${e.persisted ? ' (캐시에 보관)' : ''}`))
+window.addEventListener('pageshow', (e) => e.persisted && log('pageshow (캐시에서 복원)'))
 window.addEventListener('resize', redraw)
 
+function logPageLoad() {
+  const last = store.samples.at(-1)?.t ?? store.log.at(-1)?.t
+  if (!last) return log('페이지 로드')
+  const sec = Math.round((Date.now() - last) / 1000)
+  const ago = sec >= 60 ? `${Math.floor(sec / 60)}분 ${sec % 60}초` : `${sec}초`
+  log(`페이지 로드 (이전 기록 이후 ${ago})`)
+}
+
 setupTouchPad()
+logPageLoad()
 redraw()
 void checkCapabilities()
+// 시동 직후 버튼 없이 시작되는지 확인하는 모드
+if (new URLSearchParams(location.search).get('auto') === '1') void start(true)

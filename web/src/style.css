@@ -56,3 +56,21 @@ body {
   color: var(--muted);
   font-size: 1rem;
 }
+
+/* 자동재생이 막혔을 때만 보이는 작은 안내. 화면을 가리지 않게 구석에 둔다. */
+#sound-hint {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  z-index: 1;
+  padding: 10px 16px;
+  border-radius: 999px;
+  background: rgba(30, 30, 30, 0.85);
+  color: var(--fg);
+  font-size: 1rem;
+  pointer-events: none;
+}
+
+#sound-hint[hidden] {
+  display: none;
+}

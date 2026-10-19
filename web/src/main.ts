@@ -13,6 +13,7 @@ import { VideoRenderer } from './VideoRenderer'
 const canvas = document.querySelector<HTMLCanvasElement>('#screen')!
 const overlay = document.querySelector<HTMLDivElement>('#overlay')!
 const statusText = document.querySelector<HTMLParagraphElement>('#status')!
+const soundHint = document.querySelector<HTMLDivElement>('#sound-hint')!
 
 const RECONNECT_MS = 1000
 
@@ -44,7 +45,9 @@ if (!VideoRenderer.isSupported()) {
   throw new Error('WebCodecs unavailable')
 }
 
-const audio = new AudioPlayer()
+const audio = new AudioPlayer((state) => {
+  soundHint.hidden = state === 'running'
+})
 const video = new VideoRenderer(canvas, {
   onNeedKeyframe: () => send({ type: 'requestKeyframe' }),
   onFirstFrame: () => {
@@ -54,8 +57,17 @@ const video = new VideoRenderer(canvas, {
   onUnsupported: (codec) => showOverlay(`이 브라우저가 영상 형식(${codec})을 디코딩하지 못합니다.`),
 })
 new TouchInput(canvas, (action, x, y) => send({ type: 'touch', action, x, y }))
-// 오디오 자동재생 정책: 첫 터치 때 AudioContext를 연다.
+// 테슬라 화면에서 필요한 조작을 "브라우저 아이콘 한 번 탭"으로 줄이기 위해 버튼 없이 시작한다.
+// 소리는 자동재생 정책이 허용하면 바로, 아니면 첫 터치 때 켜진다.
+audio.unlock()
 window.addEventListener('pointerdown', () => audio.unlock())
+
+// 후진 카메라 등으로 브라우저가 내려갔다 돌아오면 디코더가 회수됐을 수 있으므로 키프레임부터 다시 받는다.
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden) return
+  send({ type: 'requestKeyframe' })
+  audio.unlock()
+})
 
 function stopVideo() {
   showingVideo = false
